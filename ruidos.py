@@ -1,34 +1,45 @@
 import numpy as np
 
-
-def agregar_ruido_sal(img):
+def agregar_ruido_sal(img, cantidad: float = 0.01):
     out = img.copy()
     h, w = out.shape[:2]
-    par = int(round(h * w * 0.01))
-    for _ in range(par):
-        a = np.random.randint(0, h)
-        b = np.random.randint(0, w)
-        out[a, b] = 255
+    par = int(round(h * w * cantidad))
+    a = np.random.randint(0, h, par)
+    b = np.random.randint(0, w, par)
+    out[a, b] = 255
     return out
 
 
-def agregar_ruido_gaussiano(img):
+def agregar_ruido_pimienta(img, cantidad: float = 0.01):
     out = img.copy()
     h, w = out.shape[:2]
-    u = 127
-    var = 100.0
-    div = 2.5 * var
-    pixel = h * w
-    i_vals = np.arange(256)
-    num = (i_vals - u) ** 2.0
-    dem = 2.0 * (var ** 2)
-    e = np.exp(-num / dem)
-    per = np.round(pixel * (1.0 / div) * e).astype(int)
-    v = per + 20
-    validos = np.where(v > 0)[0]
-    grid_y, grid_x = np.ogrid[:h, :w]
-    mask = (grid_y + grid_x) % 2 == 0
-    num_pixels = np.count_nonzero(mask)
-    valores = np.random.choice(validos, size=num_pixels) - u
-    out[mask] = np.clip(out[mask].astype(np.int32) + valores, 0, 255).astype(np.uint8)
+    par = int(round(h * w * cantidad))
+    a = np.random.randint(0, h, par)
+    b = np.random.randint(0, w, par)
+    out[a, b] = 0
     return out
+
+
+def agregar_ruido_sal_pimienta(img, cantidad: float = 0.02):
+    return agregar_ruido_pimienta(agregar_ruido_sal(img, cantidad / 2), cantidad / 2)
+
+
+def agregar_ruido_uniforme(img, low: float = -35.0, high: float = 35.0):
+    noise = np.random.uniform(low, high, img.shape)
+    out = img.astype(np.float32) + noise
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
+def agregar_ruido_gaussiano(imagen):
+    media = 0
+    sigma = 20
+    alto, ancho = imagen.shape[:2]
+
+    u1 = np.random.uniform(1e-10, 1.0, (alto, ancho))
+    u2 = np.random.uniform(1e-10, 1.0, (alto, ancho))
+
+    z = np.sqrt(-2.0 * np.log(u1)) * np.cos(2.0 * np.pi * u2)
+    ruido = media + sigma * z
+
+    salida = imagen.astype(np.float32) + ruido
+    return np.clip(salida, 0, 255).astype(np.uint8)
