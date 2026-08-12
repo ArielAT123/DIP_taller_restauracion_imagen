@@ -9,6 +9,7 @@ CONFIGURACIONES = [
     ("Sal y Pimienta (Mediana)", agregar_ruido_sal_pimienta, "Mediana", filtro_mediana),
     ("Uniforme (Punto Medio)", agregar_ruido_uniforme, "Punto Medio", filtro_punto_medio),
     ("Gaussiano (Media)", agregar_ruido_gaussiano, "Media Aritmetica", filtro_media_aritmetica),
-    ("Sal (Contra-armonico)", agregar_ruido_sal, "Contra-armonica (Q=-1.5)", lambda x: filtro_contra_armonico(x, q=-1.5)),
-    ("Pimienta (Contra-armonico)", agregar_ruido_pimienta, "Contra-armonica (Q=1.5)", lambda x: filtro_contra_armonico(x, q=1.5)),
+    ("Sal (Contra-armonico)", agregar_ruido_sal, "Contra-armonica (R=-1.5)", lambda x: filtro_contra_armonico(x, r=-1.5)),
+    ("Pimienta (Contra-armonico)", agregar_ruido_pimienta, "Contra-armonica (R=1.5)", lambda x: filtro_contra_armonico(x, r=1.5)),
 ]
+

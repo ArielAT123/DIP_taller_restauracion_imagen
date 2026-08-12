@@ -5,7 +5,7 @@ from realzado import realzar
 from visualizacion import mostrar_frames, esperar_tecla
 
 
-def principal():
+def main():
     cap = obtener_camara()
     idx, ultima_tecla = 0, 255
     print("Teclas -> [n] cambiar ruido, [q] salir")
@@ -29,4 +29,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()

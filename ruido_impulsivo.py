@@ -1,22 +1,26 @@
 import numpy as np
 
 
-def _coordenadas_aleatorias(shape, cantidad):
-    n = int(cantidad * shape[0] * shape[1])
-    return np.random.randint(0, shape[0], n), np.random.randint(0, shape[1], n)
-
-
-def agregar_ruido_sal(img, cantidad: float = 0.02):
+def agregar_ruido_sal(img):
     out = img.copy()
-    out[_coordenadas_aleatorias(img.shape, cantidad)] = 255
+    h, w = out.shape[:2]
+    par = int(round(h * w * 0.01))
+    a = np.random.randint(0, h, par)
+    b = np.random.randint(0, w, par)
+    out[a, b] = 255
     return out
 
 
-def agregar_ruido_pimienta(img, cantidad: float = 0.02):
+def agregar_ruido_pimienta(img):
     out = img.copy()
-    out[_coordenadas_aleatorias(img.shape, cantidad)] = 0
+    h, w = out.shape[:2]
+    par = int(round(h * w * 0.01))
+    a = np.random.randint(0, h, par)
+    b = np.random.randint(0, w, par)
+    out[a, b] = 0
     return out
 
 
-def agregar_ruido_sal_pimienta(img, cantidad: float = 0.02):
-    return agregar_ruido_pimienta(agregar_ruido_sal(img, cantidad / 2), cantidad / 2)
+def agregar_ruido_sal_pimienta(img):
+    out = agregar_ruido_sal(img)
+    return agregar_ruido_pimienta(out)
