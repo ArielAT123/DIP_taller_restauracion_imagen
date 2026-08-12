@@ -12,7 +12,9 @@ def leer_frame(cap: cv2.VideoCapture):
     ok, frame = cap.read()
     if not ok:
         return None
-    return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    return cv2.resize(gray, (320, 240))
+
 
 
 def liberar_camara(cap: cv2.VideoCapture) -> None:
